@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h5 class="status"></h5>
+  <span>Nofitications: </span>
+  <br />
+  <div style="display: flex; flex-direction: column; align-items: start;justify-content: start;" class="notifications">
+  </div>
+
+</body>
+<script>
+  const notifications = [];
+  const source = new EventSource("http://localhost:3000/api/v1/notifications/stream?clientId=1");
+
+  const connectionStatus = document.querySelector(".status");
+  const connectionElement = document.createElement("span");
+
+  source.onmessage = (event) => {
+    connectionElement.textContent = "Status: Conectado!";
+    connectionStatus.appendChild(connectionElement);
+    
+    const notification = JSON.parse(event.data);
+    notifications.push(notification);
+
+    const notificationsContainer = document.querySelector(".notifications");
+    const el = document.createElement('span');
+    el.textContent = notification.message;
+    notificationsContainer.append(el)
+  };
+
+  source.onerror = (error) => {
+    connectionElement.textContent = "Status: Encerrado!";
+    connectionStatus.appendChild(connectionElement);
+    console.error("SSE error", error);
+  };
+</script>
+
+</html>
