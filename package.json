@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon src/index.ts --trace-deprecation",
+    "dev": "nodemon -L src/index.ts --trace-deprecation",
     "start": "node src/index.ts",
     "test": "jest --detectOpenHandles --forceExit --watch=false",
     "buildEnv": "npx dotenv-types-generator",
